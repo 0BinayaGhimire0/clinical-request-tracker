@@ -21,7 +21,6 @@ test:
 	cd backend && ../$(PYTEST)
 
 check:
-	format:
 	$(ISORT) --check-only backend
 	$(BLACK) --check backend
 	$(FLAKE8) backend/app.py backend/tests
