@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from openpyxl import Workbook, load_workbook
+from zipfile import BadZipFile
 from datetime import datetime
 import os
 
@@ -42,14 +43,27 @@ def create_excel_file():
 
 
 def ensure_excel_file_exists():
-    if not os.path.exists(EXCEL_FILE):
+    # If the file doesn't exist or is empty, create a fresh workbook
+    if not os.path.exists(EXCEL_FILE) or os.path.getsize(EXCEL_FILE) == 0:
         create_excel_file()
-    else:
+        return
+
+    # Try to load the workbook; if it's corrupted (not a zip/xlsx), recreate it
+    try:
         workbook = load_workbook(EXCEL_FILE)
-        if COMMENTS_SHEET not in workbook.sheetnames:
-            comments_sheet = workbook.create_sheet(COMMENTS_SHEET)
-            comments_sheet.append(COMMENTS_HEADERS)
-            workbook.save(EXCEL_FILE)
+    except BadZipFile:
+        create_excel_file()
+        return
+    except Exception:
+        # Any other load error — safest to recreate the file to ensure consistency
+        create_excel_file()
+        return
+
+    # Ensure comments sheet exists
+    if COMMENTS_SHEET not in workbook.sheetnames:
+        comments_sheet = workbook.create_sheet(COMMENTS_SHEET)
+        comments_sheet.append(COMMENTS_HEADERS)
+        workbook.save(EXCEL_FILE)
 
 
 def generate_ticket_id():
