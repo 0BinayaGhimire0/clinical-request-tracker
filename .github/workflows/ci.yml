@@ -6,14 +6,21 @@ on:
   pull_request:
     branches: ["main"]
 
+permissions:
+  contents: write
+
 jobs:
   backend-checks:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
@@ -23,5 +30,19 @@ jobs:
       - name: Install dependencies
         run: make install
 
-      - name: Run checks
+      - name: Auto-format backend code
+        run: make format
+
+      - name: Commit auto-format changes
+        if: github.event_name == 'push' && github.actor != 'github-actions[bot]'
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "self-mutation: auto-format code"
+            git push
+          fi
+
+      - name: Run checks after formatting
         run: make check
