@@ -15,7 +15,7 @@ format:
 	$(ISORT) backend
 
 lint:
-	$(FLAKE8) --max-line-length=88 --extend-ignore=E203,W503 backend/app.py backend/tests
+	$(FLAKE8) backend/app.py backend/tests
 
 test:
 	cd backend && ../$(PYTEST)
@@ -23,7 +23,7 @@ test:
 check:
 	$(ISORT) --check-only backend
 	$(BLACK) --check backend
-	$(FLAKE8) --max-line-length=88 --extend-ignore=E203,W503 backend/app.py backend/tests
+	$(FLAKE8) backend/app.py backend/tests
 	cd backend && ../$(PYTEST)
 
 run:
