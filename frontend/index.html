@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Clinical Request System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>Clinical Request System</h1>
+  </header>
+
+  <main class="container">
+    <nav>
+      <a href="index.html">Submit Request</a>
+      <a href="requests.html">View Requests</a>
+    </nav>
+
+    <section class="card">
+      <h2>Submit a New Request</h2>
+      <p class="hint">Requests with “No Action” status will be removed after 14 days.</p>
+
+      <form id="requestForm">
+        <label>Request title</label>
+        <input type="text" id="title" required />
+
+        <label>Request type</label>
+        <select id="requestType" required>
+          <option value="">Select type</option>
+          <option>Access Request</option>
+          <option>Equipment Request</option>
+          <option>System Issue</option>
+          <option>Automation Request</option>
+        </select>
+
+        <label>Department</label>
+        <select id="department" required>
+          <option value="">Select department</option>
+          <option>Digital Services</option>
+          <option>Clinical Team</option>
+          <option>Admin</option>
+          <option>Welsh Blood Service</option>
+        </select>
+
+        <label>Priority</label>
+        <select id="priority" required>
+          <option value="">Select priority</option>
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+          <option>Urgent</option>
+        </select>
+
+        <label>Description</label>
+        <textarea id="description" required></textarea>
+
+        <button type="submit">Submit Request</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="dataConnector.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

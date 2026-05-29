@@ -1,0 +1,14 @@
+# Python virtual environment
+backend/.venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Excel runtime data
+backend/requests.xlsx
+
+# OS files
+.DS_Store
+Thumbs.db
