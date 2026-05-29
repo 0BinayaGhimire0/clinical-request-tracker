@@ -18,13 +18,19 @@
 
     <section class="card">
       <h2>Submitted Requests</h2>
-      <p class="hint">Requests marked “No Action” are automatically removed after 14 days.</p>
+      <p class="hint">Open a ticket to view comments and manage the request lifecycle.</p>
 
       <div id="requestsList"></div>
     </section>
+
+    <!-- Modal Overlay -->
+    <div id="modalBackdrop" class="modal-backdrop" onclick="closeTicketModal()"></div>
+    <div id="ticketModal" class="modal" style="display: none;">
+      <button class="modal-close" onclick="closeTicketModal()">✕</button>
+      <div id="ticketDetail"></div>
+    </div>
   </main>
 
-  <script src="dataConnector.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

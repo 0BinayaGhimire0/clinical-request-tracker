@@ -1,183 +1,83 @@
-# 🏥 Clinical Request Tracker
+﻿# Clinical Request Tracker
 
-A healthcare-style request management system that allows users to submit service requests, track progress, and manage workflows through a central dashboard.
+A simple, self-hosted clinical request workflow that turns manual request handling into a lightweight web-based process.
 
-The project was built to simulate a business application that could later be integrated with Microsoft Power Platform technologies such as Power Apps, Power Automate, SharePoint Lists, or Dataverse.
+## What this project is
 
----
+This project is a small request-tracking prototype for clinical teams who need a low-friction way to capture requests, monitor status, and keep an audit-friendly record in a familiar Excel format.
 
-## 🚀 Features
+It is designed to sit between manual spreadsheets and heavyweight enterprise systems.
 
-### Request Submission
+## Why it exists
 
-Users can:
+Many healthcare teams still use scattered email, paper forms, or shared spreadsheets for service and IT requests.
 
-* Submit new requests
-* Select request type
-* Choose department
-* Set request priority
-* Provide request details
+This project offers a minimal alternative that:
 
----
+* avoids complex licensing and cloud lock-in
+* keeps data in a simple Excel workbook for easy review
+* uses a browser-based interface for quick adoption
+* supports basic request lifecycle updates without heavy infrastructure
 
-### Request Management
+## What makes it different
 
-Authorised users can:
+Compared to standard market solutions like full ticketing systems or Power Platform prototypes, this app is meant for rapid experimentation and local hosting.
 
-* View all submitted requests
-* Update request status
-* Mark requests as:
+Key differences:
 
-  * No Action
-  * In Progress
-  * Approved
-  * Rejected
-  * Completed
-  * Archived
+* No database required — data is stored directly in Excel
+* No complex integrations required — the frontend talks to a small Flask API
+* Faster to adapt than enterprise ticket systems
+* Easier for small teams than building a custom SharePoint/Dataverse app
 
----
+## What it changes from the current market
 
-### Excel Data Storage
+Instead of requiring a large platform, this project provides:
 
-All request data is stored in an Excel workbook using Python and OpenPyXL.
+* a transparent workflow layer over Excel
+* direct control over request status and deletion
+* a simple HTML/CSS/JS UI rather than a fully managed SaaS experience
+* a lightweight prototype that can be extended into a more formal system later
 
-Each request is written as a new row containing:
+## Architecture overview
 
-* Request ID
-* Request Type
-* Department
-* Priority
-* Description
-* Status
-* Submission Date
-
----
-
-### REST API
-
-The application exposes REST endpoints using Flask.
-
-| Method | Endpoint       | Description           |
-| ------ | -------------- | --------------------- |
-| GET    | /requests      | Retrieve all requests |
-| POST   | /requests      | Create a request      |
-| PATCH  | /requests/{id} | Update status         |
-| DELETE | /requests/{id} | Delete request        |
-
----
-
-## 🏗️ Architecture
-
-```text
-User
- │
- ▼
-Frontend (HTML/CSS/JavaScript)
- │
- ▼
-Flask REST API
- │
- ▼
-Excel Workbook (requests.xlsx)
+```mermaid
+flowchart LR
+  User[User / Clinical Staff] -->|Submit request| Browser[Browser UI]
+  Browser -->|REST calls| API[Flask API]
+  API -->|Read / write| Excel[Excel workbook]
+  Excel -->|Persist request rows| File[requests.xlsx]
 ```
 
----
+## High-level flow
 
-## 🧰 Technology Stack
+1. A user enters request details in the browser.
+2. The browser sends the request to the backend API.
+3. The API saves request rows into an Excel workbook.
+4. The browser can retrieve requests and update their statuses.
+5. Request status changes are written back to the same workbook.
 
-### Frontend
+## Value proposition
 
-* HTML5
-* CSS3
-* JavaScript
+This project is useful when you want:
 
-### Backend
+* a quick clinical request tracker without a full ticketing platform
+* an app that can be reviewed by staff familiar with Excel
+* a prototype to validate workflow before investing in a larger system
+* a foundation that can be extended into more capable solutions later
+* a simple ticket model that supports comments on each request
 
-* Python
-* Flask
-* Flask-CORS
+## What it is not
 
-### Data Layer
+This is not a full enterprise service desk.
 
-* OpenPyXL
-* Microsoft Excel
-
-### Development Environment
-
-* Ubuntu (WSL2)
-* Git
-* GitHub
+It is intentionally simple and best suited for small teams, proof-of-concept use, or internal process experimentation.
 
 ---
 
-## 📋 Example Workflow
+## Quick summary
 
-1. User submits a request.
-2. Request is sent to Flask API.
-3. Flask validates request data.
-4. Request is stored in Excel.
-5. Request appears in the management dashboard.
-6. Administrator updates status.
-7. Changes are written back to Excel.
-
----
-
-## 🔮 Future Enhancements
-
-* User authentication
-* Role-based access control
-* SLA tracking
-* Email notifications
-* Audit history
-* Search and filtering
-* SharePoint List integration
-* Dataverse integration
-* Power Automate workflow integration
-* Dashboard reporting
-
----
-
-## 💡 What This Project Demonstrates
-
-* Frontend development
-* REST API development
-* Data persistence
-* Business workflow automation
-* Request lifecycle management
-* CRUD operations
-* Integration-ready architecture
-* Healthcare-style service management workflows
-
----
-
-## ▶️ Running Locally
-
-### Backend
-
-```bash
-cd backend
-
-python3 -m venv .venv
-
-source .venv/bin/activate
-
-pip install -r requirements.txt
-
-python app.py
-```
-
-### Frontend
-
-Open:
-
-```text
-frontend/index.html
-```
-
-in your browser.
-
----
-
-## 📚 Learning Objectives
-
-This project was created to explore how business applications can be designed and automated using concepts commonly found in enterprise platforms such as Microsoft Power Platform, SharePoint, Dataverse, and workflow automation tools.
+* **Purpose:** Simplify clinical request intake and status tracking
+* **Primary benefit:** Lightweight, Excel-backed, self-hosted prototype
+* **Differentiator:** Simple workflow layer with minimal infrastructure
+* **Best fit:** Small teams, rapid proof-of-concept, legacy or spreadsheet-driven environments

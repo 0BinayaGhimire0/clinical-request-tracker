@@ -1,0 +1,28 @@
+name: Release Check
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Create virtual environment
+        run: python -m venv backend/.venv
+
+      - name: Install dependencies
+        run: make install
+
+      - name: Run release checks
+        run: make check
